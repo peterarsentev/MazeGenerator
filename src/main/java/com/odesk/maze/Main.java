@@ -9,11 +9,11 @@ import java.awt.event.WindowEvent;
 public class Main {
 
     private static JPanel controlPanel = new JPanel();
-    private static MazePanel mazePanel = new MazePanel();
-
+    private static MazePanel mazePanel = new MazePanel(new FakeSolution());
 
     public static void main(String[] arg) {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 final JFrame frame = new JFrame();
                 frame.setTitle("Generation Maze");
@@ -26,9 +26,11 @@ public class Main {
                 final JButton generate = new JButton("Generate maze");
                 generate.addActionListener(new GenerateMazeAction(mazePanel));
                 controlPanel.add(generate);
+				controlPanel.add(new ButtonAction("Solve", new SovlerListener(mazePanel)));
                 centre(frame);
                 frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 frame.addWindowListener(new WindowAdapter() {
+                    @Override
                     public void windowClosing(WindowEvent e) {
                         closePerform(frame);
                     }
